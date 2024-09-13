@@ -45,4 +45,12 @@ jobs:
       run: echo "Installing patch (full) version ${FULLVERSION}"
     - name: Display prerelease version install
       run: echo "Installing prerelease version ${PRERELEASE}"
+    - name: Display prerelease version install
+      run: echo "Installing prerelease version ${PRERELEASE}"
+    - name: Run prerelease
+      if: ${{ steps.get_version.outputs.prerelease != '') }}
+      run: echo "Running Prerelease"
+    - name: Run relrease
+      if: ${{ steps.get_version.outputs.prerelease == '') }}
+      run: echo "Running Release"
 
