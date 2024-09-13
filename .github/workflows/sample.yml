@@ -15,8 +15,7 @@ jobs:
       uses: actions/checkout@v4
     - name: 'Get Version'
       id: get_version
-      uses: battila7/get-version-action@v2
-
+      uses: dhkatz/get-version-action@v3.0.0
     - name: 'Check for correct naming convention'
       if: ${{ !steps.get_version.outputs.is-semver }}
       run: exit 1
