@@ -6,6 +6,7 @@ env:
   MAJORVERSION: ''
   MINORVERSION: ''
   FULLVERSION: ''
+  PRERELEASE: ''
   COMPONENT_NAME: 'sample'   # set this to the web component name you are using
 jobs:
   build:
@@ -32,10 +33,16 @@ jobs:
       run: echo "FULLVERSION=${GITHUB_BRANCH}" >> $GITHUB_ENV
       env: 
         GITHUB_BRANCH: ${{ steps.get_version.outputs.version-without-v }}
+    - name: Get prelease version from tag
+      run: echo "PRERELEASE=${GITHUB_BRANCH}" >> $GITHUB_ENV
+      env: 
+        GITHUB_BRANCH: ${{ steps.get_version.outputs.prerelease }}
     - name: Display major version install
       run: echo "Installing major version ${MAJORVERSION}"
     - name: Display minor version install
       run: echo "Installing minor version ${MINORVERSION}"
     - name: Display patch (full) version install
       run: echo "Installing patch (full) version ${FULLVERSION}"
+    - name: Display prerelease version install
+      run: echo "Installing prerelease version ${PRERELEASE}"
 
