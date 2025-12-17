@@ -70,5 +70,5 @@ jobs:
 
       - name: Deploy toolbox to S3 bucket for major version
         if: ${{ steps.get_version.outputs.prerelease != '' }}
-        run: aws s3 sync ./dist/cdn/ s3://dev.toolkit.illinois.edu/content/${{inputs.COMPONENT_NAME}}-sample/$MAJORVERSION --delete --acl bucket-owner-full-control
+        run: aws s3 sync ./dist/ s3://dev.toolkit.illinois.edu/content/${{inputs.COMPONENT_NAME}}-sample/$MAJORVERSION --delete --acl bucket-owner-full-control
 
