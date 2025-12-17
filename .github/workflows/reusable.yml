@@ -57,6 +57,10 @@ jobs:
         if: ${{inputs.PRERELEASE != ''}}
         run: echo "Running development deployment ${{inputs.PRERELEASE}}"
 
+      - run: npm install
+      - run: npm rebuild
+      - run: npm run-script build
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -68,6 +72,3 @@ jobs:
         if: ${{ steps.get_version.outputs.prerelease != '' }}
         run: aws s3 sync ./dist/cdn/ s3://dev.toolkit.illinois.edu/content/${{inputs.COMPONENT_NAME}}-sample/$MAJORVERSION --delete --acl bucket-owner-full-control
 
-      - run: npm install
-      - run: npm rebuild
-      - run: npm run-script build
