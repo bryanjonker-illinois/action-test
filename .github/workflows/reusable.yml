@@ -1,0 +1,50 @@
+name: reusable
+on:
+  workflow_call:
+    inputs:
+      COMPONENT_NAME:
+        required: true
+        type: string
+      MAJORVERSION:
+        required: true
+        type: string
+      MINORVERSION:
+        required: true
+        type: string
+      FULLVERSION:
+        required: true
+        type: string
+      PRERELEASE:
+        required: true
+        type: string
+      TOOLKIT_AWS_ACCESS_KEY:
+        required: true
+        type: string
+    secrets:
+      TOOLKIT_AWS_ACCESS_SECRET:
+        required: true
+permissions:
+  id-token: write  # Required for NPM Publish OIDC
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+      - name: Display major version install
+        run: echo "Installing major version ${inputs.MAJORVERSION} for ${inputs.COMPONENT_NAME}"
+      - name: Display minor version install
+        run: echo "Installing minor version ${inputs.MINORVERSION} for ${inputs.COMPONENT_NAME}"
+      - name: Display patch (full) version install
+        run: echo "Installing patch (full) version ${inputs.FULLVERSION} for ${inputs.COMPONENT_NAME}"
+      - name: Production run
+        if: ${{ inputs.PRERELEASE == '' }}
+        run: echo "Running production deployment"
+      - name: Prerelease run
+        if: ${{ inputs.PRERELEASE != '' }}
+        run: echo "Running development deployment ${inputs.PRERELEASE}"
+
+      - run: npm install
+      - run: npm rebuild
+      - run: npm run-script build
